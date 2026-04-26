@@ -21,6 +21,8 @@ import json
 import os
 import pathlib
 import re
+import shutil
+import subprocess
 import sys
 import threading
 import time
@@ -330,9 +332,105 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("profile", help="LinkedIn profile URL or public id")
     parser.add_argument("--posts", type=int, default=5, help="number of recent posts (1-20, default 5)")
     parser.add_argument("--json", dest="as_json", action="store_true", help="emit JSON instead of Markdown")
+    parser.add_argument("--pretty", action="store_true", help="render the Markdown with ANSI styling (TTY only)")
+    parser.add_argument("--copy", action="store_true", help="copy the brief to your system clipboard")
     parser.add_argument("--include-skills", action="store_true")
     parser.add_argument("--include-education", action="store_true")
     return parser.parse_args(argv)
+
+
+# ---- terminal styling -----------------------------------------------------
+
+ANSI = {
+    "reset": "\033[0m",
+    "bold": "\033[1m",
+    "dim": "\033[2m",
+    "italic": "\033[3m",
+    "underline": "\033[4m",
+    "reverse": "\033[7m",
+    "cyan": "\033[36m",
+    "blue": "\033[34m",
+    "green": "\033[32m",
+    "yellow": "\033[33m",
+    "magenta": "\033[35m",
+    "gray": "\033[90m",
+}
+
+
+def _style_inline(text: str) -> str:
+    """Apply inline Markdown styling: **bold**, _italic_, `code`, [link](url)."""
+    text = re.sub(r"`([^`]+)`", lambda m: f"{ANSI['reverse']}{m.group(1)}{ANSI['reset']}", text)
+    text = re.sub(
+        r"\[([^\]]+)\]\(([^)]+)\)",
+        lambda m: f"{ANSI['blue']}{ANSI['underline']}{m.group(1)}{ANSI['reset']} "
+                  f"{ANSI['gray']}{m.group(2)}{ANSI['reset']}",
+        text,
+    )
+    text = re.sub(r"\*\*([^*]+)\*\*", lambda m: f"{ANSI['bold']}{m.group(1)}{ANSI['reset']}", text)
+    text = re.sub(r"(?<!\w)_([^_\n]+)_(?!\w)",
+                  lambda m: f"{ANSI['italic']}{m.group(1)}{ANSI['reset']}", text)
+    return text
+
+
+def render_styled(markdown: str) -> str:
+    """Render Markdown with ANSI styling for a TTY. Falls through to raw if not."""
+    width = shutil.get_terminal_size((80, 24)).columns
+    rule = ANSI["gray"] + ("─" * min(width, 80)) + ANSI["reset"]
+    out: list[str] = []
+    for line in markdown.splitlines():
+        if line.startswith("# "):
+            out.append("")
+            out.append(f"{ANSI['bold']}{ANSI['cyan']}{line[2:]}{ANSI['reset']}")
+            out.append(rule)
+        elif line.startswith("## "):
+            out.append("")
+            out.append(f"{ANSI['bold']}{ANSI['cyan']}{line[3:]}{ANSI['reset']}")
+        elif line.startswith("### "):
+            out.append(f"{ANSI['bold']}{line[4:]}{ANSI['reset']}")
+        elif line.strip() == "---":
+            out.append(rule)
+        elif line.startswith("> "):
+            out.append(f"{ANSI['gray']}▏{ANSI['reset']} {ANSI['italic']}{_style_inline(line[2:])}{ANSI['reset']}")
+        elif line.startswith("- "):
+            out.append(f"  {ANSI['cyan']}•{ANSI['reset']} {_style_inline(line[2:])}")
+        elif re.match(r"^\d+\.\s", line):
+            num, rest = line.split(".", 1)
+            out.append(f"  {ANSI['cyan']}{num}.{ANSI['reset']}{_style_inline(rest)}")
+        else:
+            out.append(_style_inline(line))
+    return "\n".join(out)
+
+
+# ---- clipboard ------------------------------------------------------------
+
+def _clipboard_command() -> list[str] | None:
+    """Pick the right clipboard CLI for the current OS, or None if none available."""
+    if sys.platform == "darwin" and shutil.which("pbcopy"):
+        return ["pbcopy"]
+    if sys.platform.startswith("linux"):
+        if os.environ.get("WAYLAND_DISPLAY") and shutil.which("wl-copy"):
+            return ["wl-copy"]
+        if shutil.which("xclip"):
+            return ["xclip", "-selection", "clipboard"]
+        if shutil.which("xsel"):
+            return ["xsel", "--clipboard", "--input"]
+    if sys.platform == "win32" and shutil.which("clip"):
+        return ["clip"]
+    return None
+
+
+def copy_to_clipboard(text: str) -> bool:
+    cmd = _clipboard_command()
+    if not cmd:
+        print("warning: --copy requested but no clipboard tool found "
+              "(install xclip on Linux, ensure pbcopy on macOS).", file=sys.stderr)
+        return False
+    try:
+        subprocess.run(cmd, input=text.encode(), check=True, timeout=5)
+        return True
+    except (subprocess.CalledProcessError, subprocess.TimeoutExpired, OSError) as exc:
+        print(f"warning: --copy failed ({exc}); brief not copied.", file=sys.stderr)
+        return False
 
 
 def main(argv: list[str]) -> int:
@@ -377,9 +475,21 @@ def main(argv: list[str]) -> int:
         brief = build_brief(profile_payload, posts_payload)
 
     if args.as_json:
-        print(json.dumps(brief, indent=2))
+        output = json.dumps(brief, indent=2)
     else:
-        print(render_markdown(brief))
+        output = render_markdown(brief)
+
+    if args.copy:
+        if copy_to_clipboard(output):
+            print(f"{ANSI['green']}✓{ANSI['reset']} copied to clipboard "
+                  f"({len(output):,} chars)", file=sys.stderr)
+
+    # Pretty-print only when both --pretty and a real terminal are present, and
+    # only for Markdown output (JSON should stay machine-readable).
+    if args.pretty and not args.as_json and sys.stdout.isatty():
+        print(render_styled(output))
+    else:
+        print(output)
     return 0
 
 

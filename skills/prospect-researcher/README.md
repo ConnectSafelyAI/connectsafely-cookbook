@@ -57,6 +57,12 @@ python3 example.py https://www.linkedin.com/in/williamhgates/ --json | jq '.conv
 
 # Pull more posts (1-20)
 python3 example.py https://www.linkedin.com/in/williamhgates/ --posts 10
+
+# Render styled in the terminal (bold headers, italic quotes, cyan rules)
+python3 example.py https://www.linkedin.com/in/williamhgates/ --pretty
+
+# Copy raw Markdown to the clipboard while showing the styled view on screen
+python3 example.py https://www.linkedin.com/in/williamhgates/ --pretty --copy
 ```
 
 ---

@@ -55,6 +55,8 @@ See [sample-output.md](sample-output.md) for a real run.
 
 - `--posts N` — number of recent posts to fetch (1–20, default 5).
 - `--json` — emit JSON instead of Markdown.
+- `--pretty` — render the Markdown with ANSI styling (bold headers, cyan rules, italic blockquotes). Auto-disabled when stdout isn't a terminal, so pipes and redirects still produce clean Markdown.
+- `--copy` — copy the brief to your system clipboard (uses `pbcopy` on macOS, `wl-copy`/`xclip`/`xsel` on Linux, `clip` on Windows). Combine with `--pretty` to see the styled version on screen while the raw Markdown lands in your clipboard.
 - `--include-skills` / `--include-education` — pull additional sections from the profile (no extra rate-limit cost; same call).
 
 ## Endpoints used
