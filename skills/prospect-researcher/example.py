@@ -1,11 +1,19 @@
 """Turn a LinkedIn profile URL into a structured outreach brief.
 
 Usage:
-    python example.py <linkedin-url> [--posts N] [--json] [--include-skills] [--include-education]
+    python example.py <linkedin-url> [--posts N] [--json] [--ai claude|openai]
+                                     [--include-skills] [--include-education]
 
 Endpoints:
     POST /linkedin/profile       — https://connectsafely.ai/docs
     POST /linkedin/posts/latest  — https://connectsafely.ai/docs
+
+Optional AI drafting:
+    --ai claude  uses ANTHROPIC_API_KEY against api.anthropic.com (claude-haiku-4-5)
+    --ai openai  uses OPENAI_API_KEY     against api.openai.com    (gpt-4o-mini)
+    Without --ai, the suggested DM is a deterministic template (no extra key required).
+    If --ai is set but the corresponding key is missing or the call fails, we fall
+    back to the template and print a one-line note to stderr.
 """
 from __future__ import annotations
 
@@ -140,7 +148,11 @@ def fetch_latest_posts(
     return request(session, "/posts/latest", payload)
 
 
-def build_brief(profile_payload: dict[str, Any], posts_payload: dict[str, Any]) -> dict[str, Any]:
+def build_brief(
+    profile_payload: dict[str, Any],
+    posts_payload: dict[str, Any],
+    ai_provider: str | None = None,
+) -> dict[str, Any]:
     """Reduce raw API responses to the shape we render in Markdown / JSON."""
     profile = profile_payload.get("profile") or {}
     experience = profile.get("experience") or []
@@ -150,7 +162,8 @@ def build_brief(profile_payload: dict[str, Any], posts_payload: dict[str, Any]) 
     background = experience[:3]
 
     hooks = _conversation_hooks(profile, posts)
-    return {
+
+    brief = {
         "snapshot": {
             "name": _full_name(profile),
             "headline": profile.get("headline"),
@@ -175,8 +188,12 @@ def build_brief(profile_payload: dict[str, Any], posts_payload: dict[str, Any]) 
             for p in posts
         ],
         "conversation_hooks": hooks,
-        "suggested_dm": _suggest_dm(profile, hooks),
     }
+
+    template_dm = _suggest_dm(profile, hooks)
+    brief["suggested_dm"] = _maybe_ai_dm(brief, ai_provider) or template_dm
+    brief["dm_source"] = "ai:" + ai_provider if (ai_provider and brief["suggested_dm"] != template_dm) else "template"
+    return brief
 
 
 def _full_name(profile: dict[str, Any]) -> str:
@@ -242,6 +259,104 @@ def _suggest_dm(profile: dict[str, Any], hooks: list[str]) -> str:
     return draft[:280]
 
 
+AI_SYSTEM_PROMPT = (
+    "You write short, personalized LinkedIn outreach DMs for cold outbound. "
+    "Output ONLY the message body — no quotes, no preamble, no signature, no explanation. "
+    "Maximum 280 characters. First-person, plain prose, no marketing speak, no emojis. "
+    "Reference one specific thing from the prospect's recent activity or current role. "
+    "End with a low-friction ask like 'would love to swap notes' or 'open to a quick chat?'."
+)
+
+
+def _ai_user_prompt(brief: dict[str, Any]) -> str:
+    """Compact, neutral payload for the LLM. Keep it short to control cost."""
+    s = brief["snapshot"]
+    posts = brief["recent_posts"][:3]
+    parts = [
+        f"Name: {s['name']}",
+        f"Headline: {s.get('headline') or '-'}",
+        f"Current role: {s.get('current_role') or '-'}",
+        "Recent posts:",
+    ]
+    for i, p in enumerate(posts, 1):
+        snippet = (p.get("content") or "").strip().replace("\n", " ")[:280]
+        parts.append(f"  {i}. {snippet}")
+    parts.append("")
+    parts.append("Draft the DM now.")
+    return "\n".join(parts)
+
+
+def _maybe_ai_dm(brief: dict[str, Any], provider: str | None) -> str | None:
+    """Return an AI-drafted DM, or None to fall back to the template."""
+    if not provider:
+        return None
+    user_prompt = _ai_user_prompt(brief)
+    try:
+        if provider == "claude":
+            return _draft_dm_claude(user_prompt)
+        if provider == "openai":
+            return _draft_dm_openai(user_prompt)
+    except Exception as exc:  # noqa: BLE001 — any failure means fallback
+        print(f"warning: --ai {provider} failed ({exc}); using template DM.", file=sys.stderr)
+        return None
+    return None
+
+
+def _draft_dm_claude(user_prompt: str) -> str | None:
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        print("warning: --ai claude requested but ANTHROPIC_API_KEY is unset; using template DM.",
+              file=sys.stderr)
+        return None
+    response = requests.post(
+        "https://api.anthropic.com/v1/messages",
+        headers={
+            "x-api-key": api_key,
+            "anthropic-version": "2023-06-01",
+            "content-type": "application/json",
+        },
+        json={
+            "model": "claude-haiku-4-5-20251001",
+            "max_tokens": 200,
+            "system": AI_SYSTEM_PROMPT,
+            "messages": [{"role": "user", "content": user_prompt}],
+        },
+        timeout=30,
+    )
+    response.raise_for_status()
+    data = response.json()
+    text = "".join(b.get("text", "") for b in data.get("content", []) if b.get("type") == "text")
+    return text.strip().strip('"').strip("'")[:280] or None
+
+
+def _draft_dm_openai(user_prompt: str) -> str | None:
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        print("warning: --ai openai requested but OPENAI_API_KEY is unset; using template DM.",
+              file=sys.stderr)
+        return None
+    response = requests.post(
+        "https://api.openai.com/v1/chat/completions",
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "content-type": "application/json",
+        },
+        json={
+            "model": "gpt-4o-mini",
+            "max_tokens": 200,
+            "messages": [
+                {"role": "system", "content": AI_SYSTEM_PROMPT},
+                {"role": "user", "content": user_prompt},
+            ],
+        },
+        timeout=30,
+    )
+    response.raise_for_status()
+    data = response.json()
+    text = data["choices"][0]["message"]["content"]
+    return text.strip().strip('"').strip("'")[:280] or None
+
+
 def render_markdown(brief: dict[str, Any]) -> str:
     s = brief["snapshot"]
     lines: list[str] = []
@@ -283,7 +398,9 @@ def render_markdown(brief: dict[str, Any]) -> str:
         lines.append(f"- {hook}")
     lines.append("")
 
-    lines.append("## Suggested DM")
+    source = brief.get("dm_source", "template")
+    label = "Suggested DM" if source == "template" else f"Suggested DM ({source})"
+    lines.append(f"## {label}")
     lines.append("")
     lines.append("> " + brief["suggested_dm"])
     lines.append("")
@@ -295,6 +412,12 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("profile", help="LinkedIn profile URL or public id")
     parser.add_argument("--posts", type=int, default=5, help="number of recent posts (1-20, default 5)")
     parser.add_argument("--json", dest="as_json", action="store_true", help="emit JSON instead of Markdown")
+    parser.add_argument(
+        "--ai",
+        choices=["claude", "openai"],
+        default=None,
+        help="draft the suggested DM with an LLM (requires ANTHROPIC_API_KEY or OPENAI_API_KEY)",
+    )
     parser.add_argument("--include-skills", action="store_true")
     parser.add_argument("--include-education", action="store_true")
     return parser.parse_args(argv)
@@ -333,7 +456,7 @@ def main(argv: list[str]) -> int:
         print(f"error: {exc}", file=sys.stderr)
         return exc.exit_code
 
-    brief = build_brief(profile_payload, posts_payload)
+    brief = build_brief(profile_payload, posts_payload, ai_provider=args.ai)
 
     if args.as_json:
         print(json.dumps(brief, indent=2))

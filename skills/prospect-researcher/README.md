@@ -56,7 +56,15 @@ python3 example.py https://www.linkedin.com/in/williamhgates/ --json | jq -r '.s
 
 # Pull more posts (1-20)
 python3 example.py https://www.linkedin.com/in/williamhgates/ --posts 10
+
+# AI-draft the DM with Claude (needs ANTHROPIC_API_KEY in env or .env)
+python3 example.py https://www.linkedin.com/in/williamhgates/ --ai claude
+
+# Or with OpenAI (needs OPENAI_API_KEY)
+python3 example.py https://www.linkedin.com/in/williamhgates/ --ai openai
 ```
+
+Without `--ai` the suggested DM is a deterministic template. With `--ai claude` or `--ai openai` it's drafted by `claude-haiku-4-5` or `gpt-4o-mini` over plain HTTP — no extra dependencies. Missing key or failed call → falls back to the template and warns on stderr.
 
 ---
 

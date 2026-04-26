@@ -46,7 +46,17 @@ See [sample-output.md](sample-output.md) for a real run.
 
 - `--posts N` — number of recent posts to fetch (1–20, default 5).
 - `--json` — emit JSON instead of Markdown.
+- `--ai claude` or `--ai openai` — draft the suggested DM with an LLM instead of the deterministic template. Requires `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` in env or `.env`. If the flag is set but the key is missing or the API call fails, we fall back to the template and emit a one-line warning to stderr (the brief still renders).
 - `--include-skills` / `--include-education` — pull additional sections from the profile (no extra rate-limit cost; same call).
+
+### AI providers
+
+| Provider | Model | Get a key |
+| --- | --- | --- |
+| `claude` | `claude-haiku-4-5-20251001` | https://console.anthropic.com/ |
+| `openai` | `gpt-4o-mini` | https://platform.openai.com/api-keys |
+
+Both are called over plain HTTP — no SDKs added to `requirements.txt`. The Markdown header changes from `## Suggested DM` to `## Suggested DM (ai:claude)` so you can tell at a glance whether you got an LLM draft or the template fallback. The JSON output exposes the same as `dm_source`.
 
 ## Endpoints used
 
