@@ -1,0 +1,41 @@
+---
+name: skill-name-here
+description: One sentence describing what this skill does and what it returns. Used by Claude to decide whether to load it.
+when_to_use: One sentence describing the trigger. e.g. "When the user gives a LinkedIn profile URL and asks for outreach context."
+---
+
+# skill-name-here
+
+What this skill does, in one paragraph. Mention the inputs, the output, and the endpoints it calls.
+
+## Required env vars
+
+| Variable | Purpose |
+| --- | --- |
+| `CONNECTSAFELY_API_KEY` | Your ConnectSafely API key. Get one at https://connectsafely.ai/api-key?utm_source=github&utm_medium=cookbook&utm_campaign=skill |
+| `CONNECTSAFELY_ACCOUNT_ID` | (Optional) Specific LinkedIn account on your key. Defaults to your default account. |
+
+## Quickstart
+
+```bash
+cp ../../.env.example .env && $EDITOR .env
+pip install -r requirements.txt
+python example.py <input-here>
+```
+
+## Expected output
+
+Describe the output shape. Reference [sample-output.md](sample-output.md) for a real run.
+
+## Customization
+
+- Knob 1: what it does, how to set it.
+- Knob 2: same.
+
+## Endpoints used
+
+- [`POST /linkedin/<endpoint>`](https://connectsafely.ai/docs) — what we use it for.
+
+## Tier notes
+
+Calls out which endpoints require a paid plan vs trial. API access begins at $10/month (Ultimate Outreach).

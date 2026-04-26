@@ -1,0 +1,126 @@
+name: test-skills
+
+on:
+  schedule:
+    - cron: "0 13 * * 1"   # every Monday 13:00 UTC
+  pull_request:
+    paths:
+      - "skills/**"
+      - ".github/workflows/test-skills.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      skills: ${{ steps.list.outputs.skills }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: list
+        name: List skills with examples
+        run: |
+          set -euo pipefail
+          # Skip _template and any skill without an example.{py,ts}.
+          skills=$(
+            find skills -mindepth 1 -maxdepth 1 -type d \
+              ! -name '_template' \
+              | sort \
+              | while read -r dir; do
+                  if compgen -G "$dir/example.*" > /dev/null; then
+                    echo "$dir"
+                  fi
+                done \
+              | jq -R . | jq -sc .
+          )
+          echo "skills=$skills" >> "$GITHUB_OUTPUT"
+          echo "Discovered: $skills"
+
+  run:
+    needs: discover
+    if: ${{ needs.discover.outputs.skills != '[]' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        skill: ${{ fromJSON(needs.discover.outputs.skills) }}
+    env:
+      CONNECTSAFELY_API_KEY: ${{ secrets.CONNECTSAFELY_API_KEY }}
+      CONNECTSAFELY_ACCOUNT_ID: ${{ secrets.CONNECTSAFELY_ACCOUNT_ID }}
+      # Public LinkedIn profile used as the canonical smoke-test target.
+      SMOKE_TEST_PROFILE: https://www.linkedin.com/in/williamhgates/
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Python deps
+        if: ${{ hashFiles(format('{0}/requirements.txt', matrix.skill)) != '' }}
+        run: pip install -r "${{ matrix.skill }}/requirements.txt"
+
+      - name: Install Node deps
+        if: ${{ hashFiles(format('{0}/package.json', matrix.skill)) != '' }}
+        working-directory: ${{ matrix.skill }}
+        run: npm install --no-audit --no-fund
+
+      - name: Guard against missing API key
+        run: |
+          if [ -z "${CONNECTSAFELY_API_KEY:-}" ]; then
+            echo "::warning::CONNECTSAFELY_API_KEY not set; skipping live run for ${{ matrix.skill }}"
+            echo "skip_run=1" >> "$GITHUB_ENV"
+          fi
+
+      - name: Run example (Python)
+        if: ${{ env.skip_run != '1' && hashFiles(format('{0}/example.py', matrix.skill)) != '' }}
+        run: |
+          set -e
+          cd "${{ matrix.skill }}"
+          python example.py "$SMOKE_TEST_PROFILE" > "/tmp/$(basename ${{ matrix.skill }}).out"
+          head -40 "/tmp/$(basename ${{ matrix.skill }}).out"
+
+      - name: Run example (TypeScript)
+        if: ${{ env.skip_run != '1' && hashFiles(format('{0}/example.ts', matrix.skill)) != '' && hashFiles(format('{0}/example.py', matrix.skill)) == '' }}
+        run: |
+          set -e
+          cd "${{ matrix.skill }}"
+          npx -y tsx example.ts "$SMOKE_TEST_PROFILE" > "/tmp/$(basename ${{ matrix.skill }}).out"
+          head -40 "/tmp/$(basename ${{ matrix.skill }}).out"
+
+  summary:
+    needs: run
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post summary
+        run: |
+          {
+            echo "## Skills test run"
+            echo ""
+            echo "Result: **${{ needs.run.result }}**"
+            echo ""
+            echo "Failed jobs in this matrix mean the skill no longer runs end-to-end. Check the matrix entries above."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment on PR
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const result = "${{ needs.run.result }}";
+            const emoji = result === "success" ? "✅" : (result === "skipped" ? "⏭️" : "❌");
+            const body = `${emoji} **Skills CI: ${result}**\n\nEvery skill under \`skills/\` was executed against a known-public LinkedIn profile. Check the matrix output for any individual failures.`;
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });
