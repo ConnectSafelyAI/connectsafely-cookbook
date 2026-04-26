@@ -23,8 +23,8 @@ Output is a clean Markdown brief — easy to read, easy to pipe into other tools
 
 ```bash
 cp ../../.env.example .env       # then paste your CONNECTSAFELY_API_KEY
-pip install -r requirements.txt
-python example.py https://www.linkedin.com/in/williamhgates/
+python3 -m pip install -r requirements.txt
+python3 example.py https://www.linkedin.com/in/williamhgates/
 ```
 
 See [SKILL.md](SKILL.md) for the full reference and [sample-output.md](sample-output.md) for a real run.
@@ -47,13 +47,13 @@ The script prints Markdown to stdout, so you can pipe it:
 
 ```bash
 # Save the brief
-python example.py https://www.linkedin.com/in/williamhgates/ > brief.md
+python3 example.py https://www.linkedin.com/in/williamhgates/ > brief.md
 
 # Extract the suggested DM as JSON
-python example.py https://www.linkedin.com/in/williamhgates/ --json | jq -r '.suggested_dm'
+python3 example.py https://www.linkedin.com/in/williamhgates/ --json | jq -r '.suggested_dm'
 
 # Pull more posts (1-20)
-python example.py https://www.linkedin.com/in/williamhgates/ --posts 10
+python3 example.py https://www.linkedin.com/in/williamhgates/ --posts 10
 ```
 
 ---

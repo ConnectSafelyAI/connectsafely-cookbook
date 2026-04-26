@@ -3,7 +3,7 @@
 Real captured output of:
 
 ```bash
-python example.py https://www.linkedin.com/in/williamhgates/
+python3 example.py https://www.linkedin.com/in/williamhgates/
 ```
 
 Trimmed slightly for length. Engagement counts and post content will change between runs.

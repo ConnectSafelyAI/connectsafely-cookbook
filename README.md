@@ -45,8 +45,8 @@ Run the reference skill against any public LinkedIn profile in under a minute:
 git clone https://github.com/ConnectSafelyAI/connectsafely-cookbook.git
 cd connectsafely-cookbook/skills/prospect-researcher
 cp ../../.env.example .env       # then paste your CONNECTSAFELY_API_KEY
-pip install -r requirements.txt
-python example.py https://www.linkedin.com/in/williamhgates/
+python3 -m pip install -r requirements.txt
+python3 example.py https://www.linkedin.com/in/williamhgates/
 ```
 
 You'll get a Markdown outreach brief on stdout. See the [full sample output](skills/prospect-researcher/sample-output.md).

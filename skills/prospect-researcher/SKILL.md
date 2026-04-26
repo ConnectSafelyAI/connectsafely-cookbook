@@ -18,14 +18,14 @@ Turn any LinkedIn URL into a one-page outreach brief in two API calls. Pulls the
 
 ```bash
 cp ../../.env.example .env       # then paste your CONNECTSAFELY_API_KEY
-pip install -r requirements.txt
-python example.py https://www.linkedin.com/in/williamhgates/
+python3 -m pip install -r requirements.txt
+python3 example.py https://www.linkedin.com/in/williamhgates/
 ```
 
 Pass `--json` to emit machine-readable output instead of Markdown:
 
 ```bash
-python example.py https://www.linkedin.com/in/williamhgates/ --json
+python3 example.py https://www.linkedin.com/in/williamhgates/ --json
 ```
 
 ## Expected output

@@ -65,7 +65,7 @@ jobs:
 
       - name: Install Python deps
         if: ${{ hashFiles(format('{0}/requirements.txt', matrix.skill)) != '' }}
-        run: pip install -r "${{ matrix.skill }}/requirements.txt"
+        run: python -m pip install -r "${{ matrix.skill }}/requirements.txt"
 
       - name: Install Node deps
         if: ${{ hashFiles(format('{0}/package.json', matrix.skill)) != '' }}

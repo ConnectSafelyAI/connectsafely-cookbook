@@ -18,8 +18,8 @@ What this skill does, in one paragraph. Mention the inputs, the output, and the 
 
 ```bash
 cp ../../.env.example .env       # then paste your CONNECTSAFELY_API_KEY
-pip install -r requirements.txt
-python example.py <input-here>
+python3 -m pip install -r requirements.txt
+python3 example.py <input-here>
 ```
 
 ## Expected output
