@@ -2,9 +2,31 @@
 from __future__ import annotations
 
 import os
+import pathlib
 import sys
 
 import requests
+
+
+def _load_dotenv() -> None:
+    """Load KEY=VALUE from the nearest .env. Real env vars always win."""
+    here = pathlib.Path(__file__).resolve().parent
+    for directory in [here, *here.parents]:
+        env_file = directory / ".env"
+        if env_file.is_file():
+            for raw in env_file.read_text().splitlines():
+                line = raw.strip()
+                if not line or line.startswith("#") or "=" not in line:
+                    continue
+                key, _, value = line.partition("=")
+                key = key.strip().lstrip("export ").strip()
+                value = value.strip().strip('"').strip("'")
+                if key and key not in os.environ:
+                    os.environ[key] = value
+            return
+
+
+_load_dotenv()
 
 API_BASE = "https://api.connectsafely.ai/linkedin"
 

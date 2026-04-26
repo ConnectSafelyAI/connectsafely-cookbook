@@ -43,8 +43,10 @@ Run the reference skill against any public LinkedIn profile in under a minute:
 
 ```bash
 git clone https://github.com/ConnectSafelyAI/connectsafely-cookbook.git
-cd connectsafely-cookbook/skills/prospect-researcher
-cp ../../.env.example .env       # then paste your CONNECTSAFELY_API_KEY
+cd connectsafely-cookbook
+cp .env.example .env             # then paste your CONNECTSAFELY_API_KEY
+
+cd skills/prospect-researcher
 
 # macOS / most Linux (stock Python ships pip3, not pip):
 python3 -m pip install -r requirements.txt
@@ -55,7 +57,9 @@ pip install -r requirements.txt
 python example.py https://www.linkedin.com/in/williamhgates/
 ```
 
-> **Both commands do the same thing.** `python3 -m pip` is the portable form that always works; `pip` / `python` are the shorthand that exist on systems where Python is configured for them. Pick whichever your terminal recognizes.
+The script auto-loads `.env` from the skill folder or any parent — a single `.env` at the repo root works for every skill. Real shell environment variables (`export CONNECTSAFELY_API_KEY=…`) always take priority over `.env` if both are set.
+
+> **Both pip variants do the same thing.** `python3 -m pip` is the portable form that always works; `pip` / `python` are the shorthand that exist on systems where Python is configured for them. Pick whichever your terminal recognizes.
 
 You'll get a Markdown outreach brief on stdout. See the [full sample output](skills/prospect-researcher/sample-output.md).
 

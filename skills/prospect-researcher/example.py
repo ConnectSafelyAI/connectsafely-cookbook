@@ -12,11 +12,37 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import pathlib
 import re
 import sys
 from typing import Any
 
 import requests
+
+
+def _load_dotenv() -> None:
+    """Load KEY=VALUE pairs from the nearest .env, walking up from this file.
+
+    Stdlib-only so we don't add a python-dotenv dependency. Variables that
+    are already set in the real environment win — we never overwrite them.
+    """
+    here = pathlib.Path(__file__).resolve().parent
+    for directory in [here, *here.parents]:
+        candidate = directory / ".env"
+        if candidate.is_file():
+            for raw in candidate.read_text().splitlines():
+                line = raw.strip()
+                if not line or line.startswith("#") or "=" not in line:
+                    continue
+                key, _, value = line.partition("=")
+                key = key.strip().lstrip("export ").strip()
+                value = value.strip().strip('"').strip("'")
+                if key and key not in os.environ:
+                    os.environ[key] = value
+            return
+
+
+_load_dotenv()
 
 API_BASE = "https://api.connectsafely.ai/linkedin"
 SIGNUP_URL = (

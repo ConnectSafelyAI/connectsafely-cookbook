@@ -22,10 +22,12 @@ Output is a clean Markdown brief — easy to read, easy to pipe into other tools
 ## Quickstart
 
 ```bash
-cp ../../.env.example .env       # then paste your CONNECTSAFELY_API_KEY
+cp ../../.env.example ../../.env       # then paste your CONNECTSAFELY_API_KEY
 python3 -m pip install -r requirements.txt
 python3 example.py https://www.linkedin.com/in/williamhgates/
 ```
+
+`.env` is auto-loaded from this folder or any parent — one `.env` at the repo root works for every skill.
 
 See [SKILL.md](SKILL.md) for the full reference and [sample-output.md](sample-output.md) for a real run.
 

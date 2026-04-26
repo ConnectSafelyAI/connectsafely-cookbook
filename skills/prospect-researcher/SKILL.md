@@ -17,10 +17,12 @@ Turn any LinkedIn URL into a one-page outreach brief in two API calls. Pulls the
 ## Quickstart
 
 ```bash
-cp ../../.env.example .env       # then paste your CONNECTSAFELY_API_KEY
+cp ../../.env.example ../../.env       # then paste your CONNECTSAFELY_API_KEY
 python3 -m pip install -r requirements.txt
 python3 example.py https://www.linkedin.com/in/williamhgates/
 ```
+
+The script auto-loads `.env` from this folder or any parent (so a single `.env` at the repo root covers every skill). You can also `export CONNECTSAFELY_API_KEY=…` directly in your shell — real environment variables always win over `.env`.
 
 Pass `--json` to emit machine-readable output instead of Markdown:
 
