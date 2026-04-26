@@ -81,8 +81,8 @@ Claude reads the frontmatter in `SKILL.md` and routes to the skill automatically
 | Folder | What's there |
 | --- | --- |
 | [`mcp/`](mcp/) | **Model Context Protocol** server configs and prompts for Claude Desktop, Cursor, Continue, and other MCP-aware clients |
-| [`n8n/`](n8n/) | **n8n workflow** JSON exports for LinkedIn automation pipelines |
-| [`make/`](make/) | **Make.com** scenario blueprints |
+| [`n8n/`](n8n/) | **10 importable n8n workflows** for LinkedIn automation (AI connection requests, commenter→HubSpot, post rewriter, more) |
+| [`make/`](make/) | **9 Make.com scenarios** with public blueprint URLs (AI outreach, profile-visitors→HubSpot, keyword→DM, more) |
 | [`snippets/`](snippets/) | Single-purpose code samples in [Python](snippets/python/), [TypeScript](snippets/typescript/), and [curl](snippets/curl/) |
 | [`docs/`](docs/) | Cookbook guides: [auth](docs/auth.md), [rate limits](docs/rate-limits.md), [errors](docs/errors.md), [pricing](docs/pricing.md) |
 

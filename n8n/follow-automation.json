@@ -1,0 +1,221 @@
+{
+  "name": "linkedIn-follow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        -16
+      ],
+      "id": "ce53aec4-79fb-48f1-a263-6aa571721a85",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1mplIjFsFMOWMeYKr6z2Aq9ryKGhoVcBNd0e72t0z2P0",
+          "mode": "list",
+          "cachedResultName": "Linkedin-connection-request",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1mplIjFsFMOWMeYKr6z2Aq9ryKGhoVcBNd0e72t0z2P0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1mplIjFsFMOWMeYKr6z2Aq9ryKGhoVcBNd0e72t0z2P0/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -448,
+        -16
+      ],
+      "id": "08a179b5-ae3e-471a-b7d8-c0e3157f7a77",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "huQWJYfiSyR9zlJN",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "followUser",
+        "accountId": "68e8a6885da2306b99698d3e",
+        "profileId": "={{ $json['LinkedIn Url'] }}"
+      },
+      "type": "n8n-nodes-connectsafely-ai.connectSafelyLinkedIn",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        -16
+      ],
+      "id": "26430981-d7ff-40df-b6d6-a26b954bad19",
+      "name": "ConnectSafely LinkedIn",
+      "credentials": {
+        "connectSafelyApi": {
+          "id": "jU5drIZXFXZkBvhB",
+          "name": "ConnectSafely account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1mplIjFsFMOWMeYKr6z2Aq9ryKGhoVcBNd0e72t0z2P0",
+          "mode": "list",
+          "cachedResultName": "Linkedin-connection-request",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1mplIjFsFMOWMeYKr6z2Aq9ryKGhoVcBNd0e72t0z2P0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1mplIjFsFMOWMeYKr6z2Aq9ryKGhoVcBNd0e72t0z2P0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Get row(s) in sheet').item.json.row_number }}",
+            "Status": "done"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkedIn Url",
+              "displayName": "LinkedIn Url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tagline",
+              "displayName": "Tagline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -32,
+        -16
+      ],
+      "id": "b2036da6-c61e-42bd-959b-5a5b3ffafd3d",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "huQWJYfiSyR9zlJN",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "ConnectSafely LinkedIn",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ConnectSafely LinkedIn": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "56ce9bab-d1c9-4d59-b672-b83833dc50d7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "81e5b5305c96ba45a898cad149d864c26e0b4edafdb47382e0b01c921a85081f"
+  },
+  "id": "Vw2AtpXz7uY5wXWn",
+  "tags": []
+}
