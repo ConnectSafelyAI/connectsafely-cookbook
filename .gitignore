@@ -16,4 +16,9 @@ build/
 
 .DS_Store
 .idea/
-.vscode/
+
+# Ignore most VS Code per-user state, but commit shared workspace settings
+# so the .env auto-injection and recommended extensions work for everyone.
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json

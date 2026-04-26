@@ -1,0 +1,15 @@
+{
+  "python.terminal.useEnvFile": true,
+  "python.envFile": "${workspaceFolder}/.env",
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.pytest_cache": true
+  },
+  "[python]": {
+    "editor.formatOnSave": false,
+    "editor.tabSize": 4
+  },
+  "[markdown]": {
+    "editor.wordWrap": "on"
+  }
+}
