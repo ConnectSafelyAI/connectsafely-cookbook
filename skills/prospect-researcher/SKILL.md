@@ -1,12 +1,11 @@
 ---
 name: prospect-researcher
-description: Given a LinkedIn profile URL, returns a structured Markdown brief covering background, current role, recent activity, and three suggested conversation hooks for outreach.
-when_to_use: When the user provides a LinkedIn profile URL and asks for context, talking points, or a personalized opener for outreach.
+description: Research a LinkedIn prospect from their profile URL. Returns a structured Markdown brief with their current role, recent posts, conversation hooks, and a draft outreach DM. Use when the user provides a LinkedIn profile URL and asks for context, talking points, or a personalized opener for cold outreach, sales prospecting, or recruiting.
 ---
 
 # prospect-researcher
 
-Turns a LinkedIn URL into a one-page outreach brief. Pulls the profile (name, headline, current role, location, experience) and the last five posts, then formats them into a Markdown brief with three conversation hooks and a suggested opener.
+Turn any LinkedIn URL into a one-page outreach brief in two API calls. Pulls the profile (name, headline, current role, location, experience) and the last five posts, then formats them into Markdown sections with three conversation hooks and a 280-character DM draft.
 
 ## Required env vars
 
@@ -18,7 +17,7 @@ Turns a LinkedIn URL into a one-page outreach brief. Pulls the profile (name, he
 ## Quickstart
 
 ```bash
-cp ../../.env.example .env && $EDITOR .env
+cp ../../.env.example .env       # then paste your CONNECTSAFELY_API_KEY
 pip install -r requirements.txt
 python example.py https://www.linkedin.com/in/williamhgates/
 ```
@@ -31,11 +30,11 @@ python example.py https://www.linkedin.com/in/williamhgates/ --json
 
 ## Expected output
 
-A Markdown brief with sections:
+A Markdown brief with these sections:
 
-- **Snapshot** — name, headline, location, current company, connection degree.
+- **Snapshot** — name, headline, location, current company, connection degree, follower count.
 - **Background** — top three roles from experience.
-- **Recent activity** — last five posts with engagement counts.
+- **Recent activity** — last five posts with engagement counts and links.
 - **Conversation hooks** — three openers grounded in their posts and role.
 - **Suggested DM** — a 280-char outreach draft you can edit and send.
 
@@ -45,7 +44,7 @@ See [sample-output.md](sample-output.md) for a real run.
 
 - `--posts N` — number of recent posts to fetch (1–20, default 5).
 - `--json` — emit JSON instead of Markdown.
-- `--include-skills` / `--include-education` — pull additional sections from the profile (each is a separate include flag on the profile endpoint, no extra rate-limit cost as it's the same call).
+- `--include-skills` / `--include-education` — pull additional sections from the profile (no extra rate-limit cost; same call).
 
 ## Endpoints used
 
@@ -56,7 +55,7 @@ Both endpoints accept a `profileId` (the URL slug, e.g. `williamhgates` from `li
 
 ## Tier notes
 
-API access requires a paid plan ($10/month Ultimate Outreach is the entry tier). New accounts get a trial. There is no free API tier — the "free" plan on the pricing page is for the post-boosting product only.
+API access requires a paid plan ($10/month Ultimate Outreach is the entry tier). New accounts get a trial. There is no free API tier — the "free" plan on the pricing page is for the post-boosting product only. See [docs/pricing.md](../../docs/pricing.md).
 
 ## Failure modes handled
 

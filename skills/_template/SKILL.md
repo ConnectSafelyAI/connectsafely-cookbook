@@ -1,7 +1,6 @@
 ---
 name: skill-name-here
-description: One sentence describing what this skill does and what it returns. Used by Claude to decide whether to load it.
-when_to_use: One sentence describing the trigger. e.g. "When the user gives a LinkedIn profile URL and asks for outreach context."
+description: One or two sentences describing what this skill does, what it returns, and the trigger condition under which Claude should pick it. The description is the only signal Claude uses to decide whether to load this skill, so be specific. Example pattern - "Do X from Y. Returns Z. Use when the user provides <input> and asks for <outcome>."
 ---
 
 # skill-name-here
@@ -18,7 +17,7 @@ What this skill does, in one paragraph. Mention the inputs, the output, and the 
 ## Quickstart
 
 ```bash
-cp ../../.env.example .env && $EDITOR .env
+cp ../../.env.example .env       # then paste your CONNECTSAFELY_API_KEY
 pip install -r requirements.txt
 python example.py <input-here>
 ```

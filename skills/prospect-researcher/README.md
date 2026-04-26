@@ -1,34 +1,80 @@
-# prospect-researcher
+# prospect-researcher — LinkedIn Prospect Research as a Claude Skill
 
-Get an API key: https://connectsafely.ai/api-key?utm_source=github&utm_medium=cookbook&utm_campaign=skill-prospect-researcher
+Turn any LinkedIn profile URL into a structured outreach brief in two API calls. Designed for **sales prospecting**, **AI sales agents**, and **personalized cold outreach** workflows.
 
-Turns a LinkedIn profile URL into a one-page outreach brief. Two API calls, no other setup.
+**Get a ConnectSafely API key:** [connectsafely.ai/api-key](https://connectsafely.ai/api-key?utm_source=github&utm_medium=cookbook&utm_campaign=skill-prospect-researcher)
+
+---
+
+## What it does
+
+Given a LinkedIn URL like `https://www.linkedin.com/in/williamhgates/`, this skill:
+
+1. Fetches the profile (name, headline, current role, location, follower count, experience).
+2. Fetches the last five posts (likes, comments, content, links).
+3. Generates three **conversation hooks** grounded in the prospect's recent activity.
+4. Drafts a 280-character **outreach DM** you can edit and send.
+
+Output is a clean Markdown brief — easy to read, easy to pipe into other tools.
+
+---
+
+## Quickstart
 
 ```bash
-cp ../../.env.example .env && $EDITOR .env
+cp ../../.env.example .env       # then paste your CONNECTSAFELY_API_KEY
 pip install -r requirements.txt
 python example.py https://www.linkedin.com/in/williamhgates/
 ```
 
-See [SKILL.md](SKILL.md) for the full reference and [sample-output.md](sample-output.md) for what a real run produces.
+See [SKILL.md](SKILL.md) for the full reference and [sample-output.md](sample-output.md) for a real run.
+
+---
 
 ## Use it from Claude
 
-Drop this whole folder into your Claude Skills directory (`~/.claude/skills/` or your project's `.claude/skills/`). Claude will pick it up via the frontmatter in `SKILL.md`. From there:
+Drop this whole folder into your Claude Skills directory (`~/.claude/skills/` or your project's `.claude/skills/`). Claude picks it up automatically via the frontmatter in `SKILL.md`.
 
-> Research https://www.linkedin.com/in/williamhgates/ for me — I want to send a connection request.
+> "Research https://www.linkedin.com/in/williamhgates/ for me — I want to send a connection request."
 
-Claude will run `example.py`, parse the brief, and use it to draft your outreach.
+Claude runs `example.py`, parses the brief, and uses it to draft your outreach.
+
+---
 
 ## Use it from the shell
 
 The script prints Markdown to stdout, so you can pipe it:
 
 ```bash
+# Save the brief
 python example.py https://www.linkedin.com/in/williamhgates/ > brief.md
-python example.py https://www.linkedin.com/in/williamhgates/ --json | jq '.suggested_dm'
+
+# Extract the suggested DM as JSON
+python example.py https://www.linkedin.com/in/williamhgates/ --json | jq -r '.suggested_dm'
+
+# Pull more posts (1-20)
+python example.py https://www.linkedin.com/in/williamhgates/ --posts 10
 ```
+
+---
+
+## Endpoints used
+
+| Endpoint | Purpose | Limit |
+| --- | --- | --- |
+| [`POST /linkedin/profile`](https://connectsafely.ai/docs) | Profile + experience + location | 120 unique profiles/day per account (cached fetches don't count) |
+| [`POST /linkedin/posts/latest`](https://connectsafely.ai/docs) | Last N posts | 20 max per call |
+
+Both calls use the LinkedIn URL slug as `profileId`. The script extracts it for you.
+
+---
 
 ## Tier
 
-Paid only. $10/month entry tier. New keys get a trial. See [../../docs/pricing.md](../../docs/pricing.md).
+Paid only. **$10/month entry tier** (Ultimate Outreach). New keys receive a trial. See [../../docs/pricing.md](../../docs/pricing.md).
+
+---
+
+## Related skills
+
+- [_template](../_template/) — start your own skill from this format.
