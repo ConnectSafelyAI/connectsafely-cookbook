@@ -15,12 +15,16 @@ Endpoints:
 from __future__ import annotations
 
 import argparse
+import contextlib
+import itertools
 import json
 import os
 import pathlib
 import re
 import sys
-from typing import Any
+import threading
+import time
+from typing import Any, Iterator
 
 import requests
 
@@ -55,6 +59,43 @@ SIGNUP_URL = (
     "?utm_source=github&utm_medium=cookbook&utm_campaign=skill-prospect-researcher"
 )
 PROFILE_URL_RE = re.compile(r"linkedin\.com/in/([^/?#]+)", re.IGNORECASE)
+
+SPINNER_FRAMES = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
+
+
+@contextlib.contextmanager
+def spinner(label: str) -> Iterator[None]:
+    """Render a braille spinner on stderr while the block runs.
+
+    Stays silent when stderr isn't a TTY (CI logs, redirected output) so the
+    cookbook's CI matrix doesn't get spammed with control characters.
+    """
+    if not sys.stderr.isatty():
+        yield
+        return
+
+    stop = threading.Event()
+    start = time.monotonic()
+
+    def draw() -> None:
+        for frame in itertools.cycle(SPINNER_FRAMES):
+            if stop.is_set():
+                break
+            elapsed = time.monotonic() - start
+            sys.stderr.write(f"\r\033[K\033[36m{frame}\033[0m {label} \033[2m{elapsed:0.1f}s\033[0m")
+            sys.stderr.flush()
+            time.sleep(0.08)
+
+    thread = threading.Thread(target=draw, daemon=True)
+    thread.start()
+    try:
+        yield
+    finally:
+        stop.set()
+        thread.join(timeout=0.5)
+        elapsed = time.monotonic() - start
+        sys.stderr.write(f"\r\033[K\033[32m✓\033[0m {label} \033[2m({elapsed:0.1f}s)\033[0m\n")
+        sys.stderr.flush()
 
 
 class ApiError(Exception):
@@ -319,15 +360,21 @@ def main(argv: list[str]) -> int:
     })
 
     try:
-        profile_payload = fetch_profile(
-            session, profile_id, args.include_skills, args.include_education
-        )
-        posts_payload = fetch_latest_posts(session, profile_id, args.posts)
+        with spinner(f"Fetching profile {profile_id}"):
+            profile_payload = fetch_profile(
+                session, profile_id, args.include_skills, args.include_education
+            )
+        with spinner(f"Fetching last {args.posts} posts"):
+            posts_payload = fetch_latest_posts(session, profile_id, args.posts)
     except ApiError as exc:
+        # Drop any in-flight spinner line before the error so it's not garbled
+        if sys.stderr.isatty():
+            sys.stderr.write("\r\033[K")
         print(f"error: {exc}", file=sys.stderr)
         return exc.exit_code
 
-    brief = build_brief(profile_payload, posts_payload)
+    with spinner("Building brief"):
+        brief = build_brief(profile_payload, posts_payload)
 
     if args.as_json:
         print(json.dumps(brief, indent=2))
