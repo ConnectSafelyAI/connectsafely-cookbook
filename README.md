@@ -4,7 +4,7 @@
 
 [![test-skills](https://github.com/ConnectSafelyAI/connectsafely-cookbook/actions/workflows/test-skills.yml/badge.svg)](https://github.com/ConnectSafelyAI/connectsafely-cookbook/actions/workflows/test-skills.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Skills](https://img.shields.io/badge/Claude-Skills-7c3aed)](https://docs.claude.com/en/docs/agents/skills)
+[![Skills](https://img.shields.io/badge/Claude-Skills-7c3aed)](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview)
 [![MCP Compatible](https://img.shields.io/badge/MCP-compatible-2563eb)](https://modelcontextprotocol.io/)
 
 **Get a ConnectSafely API key:** [connectsafely.ai/api-key](https://connectsafely.ai/api-key?utm_source=github&utm_medium=cookbook&utm_campaign=readme)
@@ -67,7 +67,7 @@ You'll get a Markdown outreach brief on stdout. See the [full sample output](ski
 
 ## Claude Skills
 
-Reusable [Claude Skills](https://docs.claude.com/en/docs/agents/skills) — drop-in agent capabilities you can use from Claude Desktop, Claude Code, or the Anthropic API.
+Reusable [Claude Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) — drop-in agent capabilities you can use from Claude Desktop, Claude Code, or the Anthropic API.
 
 | Skill | What it does | Endpoints |
 | --- | --- | --- |
@@ -159,8 +159,8 @@ Issue templates: [request a skill](.github/ISSUE_TEMPLATE/skill-request.md) · [
 ## Related
 
 - [ConnectSafely API docs](https://connectsafely.ai/docs)
-- [ConnectSafely n8n community node](https://github.com/connectsafely/N8N_Package_ConnectSafely)
-- [Claude Skills documentation](https://docs.claude.com/en/docs/agents/skills)
+- [ConnectSafely n8n community node](https://github.com/ConnectSafelyAI/N8N_Package_ConnectSafely)
+- [Claude Skills documentation](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 
 ---

@@ -4,7 +4,7 @@ Importable n8n workflow JSON exports for **LinkedIn automation** with the [Conne
 
 **Get a ConnectSafely API key:** [connectsafely.ai/api-key](https://connectsafely.ai/api-key?utm_source=github&utm_medium=cookbook&utm_campaign=n8n)
 
-There is also a community n8n node: [connectsafely/N8N_Package_ConnectSafely](https://github.com/connectsafely/N8N_Package_ConnectSafely). The workflows below use the generic **HTTP Request** node, so they work without installing the community node.
+There is also a community n8n node: [ConnectSafelyAI/N8N_Package_ConnectSafely](https://github.com/ConnectSafelyAI/N8N_Package_ConnectSafely). The workflows below use the generic **HTTP Request** node, so they work without installing the community node.
 
 ---
 
