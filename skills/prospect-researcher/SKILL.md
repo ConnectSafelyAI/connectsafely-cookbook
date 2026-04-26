@@ -1,11 +1,11 @@
 ---
 name: prospect-researcher
-description: Research a LinkedIn prospect from their profile URL. Returns a structured Markdown brief with their current role, recent posts, conversation hooks, and a draft outreach DM. Use when the user provides a LinkedIn profile URL and asks for context, talking points, or a personalized opener for cold outreach, sales prospecting, or recruiting.
+description: Research a LinkedIn prospect from their profile URL. Returns a structured Markdown brief with their current role, recent posts, and conversation hooks. The calling agent (Claude, GPT, etc.) should write the actual outreach message based on the hooks and recent posts. Use when the user provides a LinkedIn profile URL and asks for context, talking points, or wants to draft a personalized opener for cold outreach, sales prospecting, or recruiting.
 ---
 
 # prospect-researcher
 
-Turn any LinkedIn URL into a one-page outreach brief in two API calls. Pulls the profile (name, headline, current role, location, experience) and the last five posts, then formats them into Markdown sections with three conversation hooks and a 280-character DM draft.
+Turn any LinkedIn URL into a structured research brief in two API calls. The skill returns **research data** — current role, recent posts, conversation hooks. **Writing the actual DM is the calling agent's job**, because the agent has more context than this script ever will (your tone, your product, prior messages, the user's goal).
 
 ## Required env vars
 
@@ -30,6 +30,16 @@ Pass `--json` to emit machine-readable output instead of Markdown:
 python3 example.py https://www.linkedin.com/in/williamhgates/ --json
 ```
 
+## How an agent should use this
+
+When Claude (or any agent) invokes this skill, the workflow is:
+
+1. Skill returns the brief — snapshot, background, recent posts, conversation hooks.
+2. Agent reads the brief in its context.
+3. Agent writes the personalized DM using the hooks and post snippets as raw material.
+
+The brief gives the agent what it can't get on its own (current role, recent activity); the agent provides what the brief can't (your tone, your product, conversation history).
+
 ## Expected output
 
 A Markdown brief with these sections:
@@ -38,7 +48,6 @@ A Markdown brief with these sections:
 - **Background** — top three roles from experience.
 - **Recent activity** — last five posts with engagement counts and links.
 - **Conversation hooks** — three openers grounded in their posts and role.
-- **Suggested DM** — a 280-char outreach draft you can edit and send.
 
 See [sample-output.md](sample-output.md) for a real run.
 
@@ -46,17 +55,7 @@ See [sample-output.md](sample-output.md) for a real run.
 
 - `--posts N` — number of recent posts to fetch (1–20, default 5).
 - `--json` — emit JSON instead of Markdown.
-- `--ai claude` or `--ai openai` — draft the suggested DM with an LLM instead of the deterministic template. Requires `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` in env or `.env`. If the flag is set but the key is missing or the API call fails, we fall back to the template and emit a one-line warning to stderr (the brief still renders).
 - `--include-skills` / `--include-education` — pull additional sections from the profile (no extra rate-limit cost; same call).
-
-### AI providers
-
-| Provider | Model | Get a key |
-| --- | --- | --- |
-| `claude` | `claude-haiku-4-5-20251001` | https://console.anthropic.com/ |
-| `openai` | `gpt-4o-mini` | https://platform.openai.com/api-keys |
-
-Both are called over plain HTTP — no SDKs added to `requirements.txt`. The Markdown header changes from `## Suggested DM` to `## Suggested DM (ai:claude)` so you can tell at a glance whether you got an LLM draft or the template fallback. The JSON output exposes the same as `dm_source`.
 
 ## Endpoints used
 
