@@ -136,7 +136,7 @@ Body: { "linkedinUrl": "{{row.LinkedInURL}}" }
 ### Step 4: Build Your Target List
 
 **Best sources for your follow list:**
-- LinkedIn search results (use the [LinkedIn Search to Sheets Blueprint](/integrations/templates/make-linkedin-search-to-google-sheets))
+- LinkedIn search results (use the [LinkedIn Search to Sheets Blueprint](./search-to-google-sheets.md))
 - Event attendee lists
 - Industry conference speakers
 - Competitor follower lists
@@ -198,10 +198,10 @@ Yes — LinkedIn notifies users when someone follows them (unless they've disabl
 
 ## Related Workflows
 
-- [AI-Powered Outreach with Make.com + Gemini](/integrations/templates/make-linkedin-ai-outreach-gemini) - Follow-up with connection requests after following
-- [Turn Commenters into Connections](/integrations/templates/make-linkedin-commenters-to-connections) - Convert engaged followers into connections
-- [n8n: LinkedIn Follow Automation](/integrations/templates/n8n-linkedin-follow-automation) - Same workflow built on n8n
+- [AI-Powered Outreach with Make.com + Gemini](./ai-outreach-gemini.md) - Follow-up with connection requests after following
+- [Turn Commenters into Connections](./commenters-to-connections.md) - Convert engaged followers into connections
+- [n8n: LinkedIn Follow Automation](../n8n/follow-automation.json) - Same workflow built on n8n
 
 ---
 
-*Start building your LinkedIn presence at scale. [Start your ConnectSafely free trial](/pricing) to go live today.*
+*Start building your LinkedIn presence at scale. [Start your ConnectSafely free trial](https://connectsafely.ai/pricing) to go live today.*

@@ -176,7 +176,7 @@ Once contacts are in HubSpot, the follow-up workflow:
 - Or email if available
 
 **3. Day 3–5:**
-- LinkedIn connection request (use the [Commenters to Connections blueprint](/integrations/templates/make-linkedin-commenters-to-connections))
+- LinkedIn connection request (use the [Commenters to Connections blueprint](./commenters-to-connections.md))
 
 **4. Day 7+:**
 - Sales sequence or nurture workflow in HubSpot
@@ -228,10 +228,10 @@ Yes — Module 8 in this blueprint enrolls new contacts in a HubSpot sequence au
 
 ## Related Workflows
 
-- [LinkedIn Profile Visitors to HubSpot CRM](/integrations/templates/make-linkedin-profile-visitors-to-hubspot) - Push profile visitors (not just commenters) to HubSpot
-- [Turn Commenters into Connections](/integrations/templates/make-linkedin-commenters-to-connections) - Connect with commenters on LinkedIn first
-- [n8n: LinkedIn Commenters to HubSpot](/integrations/templates/n8n-linkedin-commenters-hubspot-crm) - Same workflow built on n8n
+- [LinkedIn Profile Visitors to HubSpot CRM](./profile-visitors-to-hubspot.md) - Push profile visitors (not just commenters) to HubSpot
+- [Turn Commenters into Connections](./commenters-to-connections.md) - Connect with commenters on LinkedIn first
+- [n8n: LinkedIn Commenters to HubSpot](../n8n/commenters-hubspot-crm.json) - Same workflow built on n8n
 
 ---
 
-*Stop losing LinkedIn leads to manual processes. [Start your ConnectSafely free trial](/pricing) and start filling your HubSpot pipeline from LinkedIn today.*
+*Stop losing LinkedIn leads to manual processes. [Start your ConnectSafely free trial](https://connectsafely.ai/pricing) and start filling your HubSpot pipeline from LinkedIn today.*

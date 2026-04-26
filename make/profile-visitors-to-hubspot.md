@@ -175,10 +175,10 @@ Create a HubSpot Workflow triggered when `linkedin_lead_source = "LinkedIn - Pro
 
 **Branch 1: Has Email**
 - Day 1: Send personalized email
-- Day 3: LinkedIn connection request (use [Profile Visitor Messaging Blueprint](/integrations/templates/make-linkedin-profile-visitor-messaging))
+- Day 3: LinkedIn connection request (use [Profile Visitor Messaging Blueprint](./profile-visitor-messaging.md))
 
 **Branch 2: No Email**
-- Day 1: LinkedIn DM via [Profile Visitor Messaging Blueprint](/integrations/templates/make-linkedin-profile-visitor-messaging)
+- Day 1: LinkedIn DM via [Profile Visitor Messaging Blueprint](./profile-visitor-messaging.md)
 - Assign to sales rep for manual follow-up
 
 ## Pipeline Tracking & ROI
@@ -234,10 +234,10 @@ Yes — once visitors are in HubSpot as contacts, you can trigger email sequence
 
 ## Related Workflows
 
-- [Auto-Message Profile Visitors on LinkedIn](/integrations/templates/make-linkedin-profile-visitor-messaging) - DM visitors directly on LinkedIn
-- [LinkedIn Commenters to HubSpot](/integrations/templates/make-linkedin-commenters-to-hubspot) - Same CRM pipeline from post engagement
-- [n8n: Profile Visitors to HubSpot](/integrations/templates/n8n-linkedin-visitors-hubspot-crm) - Same workflow built on n8n
+- [Auto-Message Profile Visitors on LinkedIn](./profile-visitor-messaging.md) - DM visitors directly on LinkedIn
+- [LinkedIn Commenters to HubSpot](./commenters-to-hubspot.md) - Same CRM pipeline from post engagement
+- [n8n: Profile Visitors to HubSpot](../n8n/visitors-hubspot-crm.json) - Same workflow built on n8n
 
 ---
 
-*Stop letting warm leads slip through the cracks. [Start your ConnectSafely free trial](/pricing) and start capturing LinkedIn leads into HubSpot today.*
+*Stop letting warm leads slip through the cracks. [Start your ConnectSafely free trial](https://connectsafely.ai/pricing) and start capturing LinkedIn leads into HubSpot today.*

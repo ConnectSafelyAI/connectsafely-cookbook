@@ -201,9 +201,9 @@ Run the blueprint multiple times with different search queries to build a compre
 
 | Next Step | Blueprint |
 |---|---|
-| Send connection requests with AI personalization | [AI-Powered Outreach with Make.com + Gemini](/integrations/templates/make-linkedin-ai-outreach-gemini) |
-| Follow all profiles first (warm up) | [Auto-Follow Profiles from Sheets](/integrations/templates/make-linkedin-auto-follow-from-sheets) |
-| Push to HubSpot as contacts | [Commenters to HubSpot](/integrations/templates/make-linkedin-commenters-to-hubspot) |
+| Send connection requests with AI personalization | [AI-Powered Outreach with Make.com + Gemini](./ai-outreach-gemini.md) |
+| Follow all profiles first (warm up) | [Auto-Follow Profiles from Sheets](./auto-follow-from-sheets.md) |
+| Push to HubSpot as contacts | [Commenters to HubSpot](./commenters-to-hubspot.md) |
 
 ## Best Practices
 
@@ -251,13 +251,13 @@ Extracting publicly available LinkedIn profile data for legitimate business purp
 
 ## Related Workflows
 
-- [Extract LinkedIn Group Premium Members](/integrations/templates/make-linkedin-group-members-to-sheets) - Alternative lead source from group membership
-- [Auto-Follow Profiles from Sheets](/integrations/templates/make-linkedin-auto-follow-from-sheets) - Follow your extracted list automatically
-- [n8n: LinkedIn Search to Sheets](/integrations/templates/n8n-linkedin-search-results-sheets) - Same workflow built on n8n
+- [Extract LinkedIn Group Premium Members](./group-members-to-sheets.md) - Alternative lead source from group membership
+- [Auto-Follow Profiles from Sheets](./auto-follow-from-sheets.md) - Follow your extracted list automatically
+- [n8n: LinkedIn Search to Sheets](../n8n/search-results-sheets.json) - Same workflow built on n8n
 
 ---
 
-*Build your entire outreach list in minutes, not days. [Start your ConnectSafely free trial](/pricing) and launch today.*
+*Build your entire outreach list in minutes, not days. [Start your ConnectSafely free trial](https://connectsafely.ai/pricing) and launch today.*
 {
   "keywords": "VP Sales OR Head of Sales OR Chief Revenue Officer",
   "company": "B2B SaaS",
@@ -294,9 +294,9 @@ Run the blueprint multiple times with different search queries to build a compre
 
 | Next Step | Blueprint |
 |---|---|
-| Send connection requests with AI personalization | [AI-Powered Outreach with Gemini](/integrations/templates/make-linkedin-ai-outreach-gemini) |
-| Follow all profiles first (warm up) | [Auto-Follow from Sheets](/integrations/templates/make-linkedin-auto-follow-from-sheets) |
-| Push to HubSpot as contacts | [Commenters to HubSpot](/integrations/templates/make-linkedin-commenters-to-hubspot) |
+| Send connection requests with AI personalization | [AI-Powered Outreach with Gemini](./ai-outreach-gemini.md) |
+| Follow all profiles first (warm up) | [Auto-Follow from Sheets](./auto-follow-from-sheets.md) |
+| Push to HubSpot as contacts | [Commenters to HubSpot](./commenters-to-hubspot.md) |
 
 ## Best Practices
 
@@ -344,10 +344,10 @@ Extracting publicly available LinkedIn profile data for legitimate business purp
 
 ## Related Workflows
 
-- [Extract LinkedIn Group Premium Members](/integrations/templates/make-linkedin-group-members-to-sheets) - Alternative lead source from group membership
-- [Auto-Follow Profiles from Sheets](/integrations/templates/make-linkedin-auto-follow-from-sheets) - Follow your extracted list automatically
-- [n8n: LinkedIn Search to Sheets](/integrations/templates/n8n-linkedin-search-results-sheets) - Same workflow built on n8n
+- [Extract LinkedIn Group Premium Members](./group-members-to-sheets.md) - Alternative lead source from group membership
+- [Auto-Follow Profiles from Sheets](./auto-follow-from-sheets.md) - Follow your extracted list automatically
+- [n8n: LinkedIn Search to Sheets](../n8n/search-results-sheets.json) - Same workflow built on n8n
 
 ---
 
-*Build your entire outreach list in minutes, not days. [Start your ConnectSafely free trial](/pricing) and launch today.*
+*Build your entire outreach list in minutes, not days. [Start your ConnectSafely free trial](https://connectsafely.ai/pricing) and launch today.*

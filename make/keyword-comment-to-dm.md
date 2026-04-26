@@ -227,10 +227,10 @@ As fast as possible — within 5 minutes is ideal. People are still actively on 
 
 ## Related Workflows
 
-- [Turn Commenters into Connections](/integrations/templates/make-linkedin-commenters-to-connections) - Connect with everyone who comments, not just keyword commenters
-- [AI-Powered Outreach with Gemini](/integrations/templates/make-linkedin-ai-outreach-gemini) - Add AI personalization to follow-up messages
-- [n8n: Connection Requests to Commenters](/integrations/templates/n8n-linkedin-connection-requests-commenters) - Same workflow built on n8n
+- [Turn Commenters into Connections](./commenters-to-connections.md) - Connect with everyone who comments, not just keyword commenters
+- [AI-Powered Outreach with Gemini](./ai-outreach-gemini.md) - Add AI personalization to follow-up messages
+- [n8n: Connection Requests to Commenters](../n8n/connection-requests-commenters.json) - Same workflow built on n8n
 
 ---
 
-*Ready to automate your LinkedIn lead magnet delivery? [Start your ConnectSafely free trial](/pricing) and go live in minutes.*
+*Ready to automate your LinkedIn lead magnet delivery? [Start your ConnectSafely free trial](https://connectsafely.ai/pricing) and go live in minutes.*

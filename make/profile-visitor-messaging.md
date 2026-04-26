@@ -197,10 +197,10 @@ Keep it short and low-pressure: *"Hey [Name], saw you stopped by my profile — 
 
 ## Related Workflows
 
-- [Profile Visitors to HubSpot CRM](/integrations/templates/make-linkedin-profile-visitors-to-hubspot) - Push visitor data directly into HubSpot
-- [AI-Powered LinkedIn Outreach with Make.com + Gemini](/integrations/templates/make-linkedin-ai-outreach-gemini) - Add AI personalization to outreach
-- [n8n: DM Profile Visitors](/integrations/templates/n8n-linkedin-dm-profile-visitors) - Same workflow built on n8n
+- [Profile Visitors to HubSpot CRM](./profile-visitors-to-hubspot.md) - Push visitor data directly into HubSpot
+- [AI-Powered LinkedIn Outreach with Make.com + Gemini](./ai-outreach-gemini.md) - Add AI personalization to outreach
+- [n8n: DM Profile Visitors](../n8n/dm-profile-visitors.json) - Same workflow built on n8n
 
 ---
 
-*Turn your profile viewers into real conversations. [Start your ConnectSafely free trial](/pricing) to go live in minutes.*
+*Turn your profile viewers into real conversations. [Start your ConnectSafely free trial](https://connectsafely.ai/pricing) to go live in minutes.*

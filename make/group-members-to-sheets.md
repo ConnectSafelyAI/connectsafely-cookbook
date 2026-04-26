@@ -169,13 +169,13 @@ Search LinkedIn Groups: `linkedin.com/groups/search/`
 Once your sheet is populated with premium members:
 
 **Option 1: Direct connection requests**
-→ Use the [AI-Powered Outreach Blueprint](/integrations/templates/make-linkedin-ai-outreach-gemini) to send personalized connection requests
+→ Use the [AI-Powered Outreach Blueprint](./ai-outreach-gemini.md) to send personalized connection requests
 
 **Option 2: LinkedIn follow campaign**
-→ Use the [Auto-Follow from Sheets Blueprint](/integrations/templates/make-linkedin-auto-follow-from-sheets)
+→ Use the [Auto-Follow from Sheets Blueprint](./auto-follow-from-sheets.md)
 
 **Option 3: Export to CRM**
-→ Push to HubSpot using the [Commenters to HubSpot Blueprint](/integrations/templates/make-linkedin-commenters-to-hubspot) (adaptable for sheet-based inputs)
+→ Push to HubSpot using the [Commenters to HubSpot Blueprint](./commenters-to-hubspot.md) (adaptable for sheet-based inputs)
 
 ## Best Practices
 
@@ -223,10 +223,10 @@ Extraction limits depend on group size and pace. For groups under 5,000 members,
 
 ## Related Workflows
 
-- [Build LinkedIn Lead Lists from Search](/integrations/templates/make-linkedin-search-to-google-sheets) - Extract from LinkedIn search results instead of groups
-- [Auto-Follow Profiles from Sheets](/integrations/templates/make-linkedin-auto-follow-from-sheets) - Follow every profile you extracted
-- [n8n: Group Members to Sheets](/integrations/templates/n8n-linkedin-group-members-sheets) - Same workflow built on n8n
+- [Build LinkedIn Lead Lists from Search](./search-to-google-sheets.md) - Extract from LinkedIn search results instead of groups
+- [Auto-Follow Profiles from Sheets](./auto-follow-from-sheets.md) - Follow every profile you extracted
+- [n8n: Group Members to Sheets](../n8n/group-members-sheets.json) - Same workflow built on n8n
 
 ---
 
-*Build your next prospect list in minutes, not days. [Start your ConnectSafely free trial](/pricing) and get started today.*
+*Build your next prospect list in minutes, not days. [Start your ConnectSafely free trial](https://connectsafely.ai/pricing) and get started today.*

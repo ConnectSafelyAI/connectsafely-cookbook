@@ -224,7 +224,7 @@ Once the basics work, extend it to:
 1. **Multi-post targeting** — feed a list of post URLs and process all commenters at once
 2. **CRM sync** — push new connections to HubSpot or Salesforce after they accept
 3. **Follow-up DM** — send a message 24 hours after the connection is accepted
-4. **AI personalization** — use Google Gemini to generate a custom message per commenter (see our [AI outreach blueprint](/integrations/templates/make-linkedin-ai-outreach-gemini))
+4. **AI personalization** — use Google Gemini to generate a custom message per commenter (see our [AI outreach blueprint](./ai-outreach-gemini.md))
 
 ## Common Issues & Fixes
 
@@ -252,7 +252,7 @@ Start with 10–15/day for new accounts, or 20–25/day for established accounts
 
 ### What's a good connection message for post commenters?
 
-Keep it short, specific, and reference the post: *"Hey [Name], your comment on [topic] caught my attention — I'm working on the same problem. Would love to connect!"* Under 280 characters, reference the post context, no pitches in the first message. See the FAQ in our [AI outreach blueprint](/integrations/templates/make-linkedin-ai-outreach-gemini) for more message templates.
+Keep it short, specific, and reference the post: *"Hey [Name], your comment on [topic] caught my attention — I'm working on the same problem. Would love to connect!"* Under 280 characters, reference the post context, no pitches in the first message. See the FAQ in our [AI outreach blueprint](./ai-outreach-gemini.md) for more message templates.
 
 ### Can I use this for someone else's post (not just my own)?
 
@@ -260,10 +260,10 @@ Yes — any public LinkedIn post URL works. Targeting commenters on competitor o
 
 ## Related Workflows
 
-- [AI-Powered LinkedIn Outreach with Make.com + Gemini](/integrations/templates/make-linkedin-ai-outreach-gemini) - Add AI personalization to your outreach
-- [n8n: Send Connections to Post Commenters](/integrations/templates/n8n-linkedin-connection-requests-commenters) - Same workflow, built on n8n
-- [LinkedIn Commenters to HubSpot CRM](/integrations/templates/n8n-linkedin-commenters-hubspot-crm) - Sync commenters directly to your CRM
+- [AI-Powered LinkedIn Outreach with Make.com + Gemini](./ai-outreach-gemini.md) - Add AI personalization to your outreach
+- [n8n: Send Connections to Post Commenters](../n8n/connection-requests-commenters.json) - Same workflow, built on n8n
+- [LinkedIn Commenters to HubSpot CRM](../n8n/commenters-hubspot-crm.json) - Sync commenters directly to your CRM
 
 ---
 
-*Ready to turn your LinkedIn engagement into real connections? [Start your ConnectSafely free trial](/pricing) to launch in minutes.*
+*Ready to turn your LinkedIn engagement into real connections? [Start your ConnectSafely free trial](https://connectsafely.ai/pricing) to launch in minutes.*

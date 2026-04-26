@@ -243,7 +243,7 @@ Use a **Router** to split traffic between two prompt variations and track accept
 - Keep messages professional and relevant
 - Honor opt-outs immediately
 
-Learn more about [staying within LinkedIn's limits safely](/features/safe-automation).
+Learn more about [staying within LinkedIn's limits safely](https://connectsafely.ai/features/safe-automation).
 
 ## Common Issues & Fixes
 
@@ -259,7 +259,7 @@ Learn more about [staying within LinkedIn's limits safely](/features/safe-automa
 
 ### How do I automate LinkedIn outreach with Make.com?
 
-Build a Make scenario that connects Google Sheets (prospect list) → ConnectSafely API (get profile data) → Google Gemini (generate message) → ConnectSafely API (send request) → Google Sheets (log status). See the [ConnectSafely Make integration guide](/integrations/make) for setup details. Get started by connecting both API keys.
+Build a Make scenario that connects Google Sheets (prospect list) → ConnectSafely API (get profile data) → Google Gemini (generate message) → ConnectSafely API (send request) → Google Sheets (log status). See the [ConnectSafely Make integration guide](https://connectsafely.ai/integrations/make) for setup details. Get started by connecting both API keys.
 
 ### Is Make.com better than n8n for LinkedIn automation?
 
@@ -279,10 +279,10 @@ Make's free plan includes 1,000 operations per month — enough to test with 100
 
 ## Related Workflows
 
-- [Turn LinkedIn Commenters into Connections](/integrations/templates/make-linkedin-commenters-to-connections) - Automatically connect with people who comment on posts
-- [n8n AI LinkedIn Connection Requests with Gemini](/integrations/templates/n8n-linkedin-ai-connection-requests-gemini) - Same workflow, built on n8n
-- [LinkedIn Commenters to HubSpot](/integrations/templates/n8n-linkedin-commenters-hubspot-crm) - Sync engaged commenters to your CRM
+- [Turn LinkedIn Commenters into Connections](./commenters-to-connections.md) - Automatically connect with people who comment on posts
+- [n8n AI LinkedIn Connection Requests with Gemini](../n8n/ai-connection-requests-gemini.json) - Same workflow, built on n8n
+- [LinkedIn Commenters to HubSpot](../n8n/commenters-hubspot-crm.json) - Sync engaged commenters to your CRM
 
 ---
 
-*Ready to build your AI-powered LinkedIn outreach system? [Start your ConnectSafely free trial](/pricing) to get started in minutes.*
+*Ready to build your AI-powered LinkedIn outreach system? [Start your ConnectSafely free trial](https://connectsafely.ai/pricing) to get started in minutes.*
