@@ -163,6 +163,10 @@ Issue templates: [request a skill](.github/ISSUE_TEMPLATE/skill-request.md) · [
 - [Claude Skills documentation](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 
+
+## Keywords
+
+LinkedIn API, LinkedIn automation API, Claude Skills LinkedIn, Anthropic Claude Skills examples, Model Context Protocol LinkedIn, MCP server LinkedIn, n8n LinkedIn workflow, n8n LinkedIn automation, Make.com LinkedIn scenarios, AI sales agent, AI prospecting agent, AI outreach automation, LinkedIn lead generation API, LinkedIn lead enrichment, LinkedIn scraping alternative, LinkedIn data API, LinkedIn messaging API, LinkedIn InMail API, LinkedIn connection request automation, LinkedIn post automation, LinkedIn comment automation, Sales Navigator API, recruiter sourcing automation, ConnectSafely API, ConnectSafely cookbook, Python LinkedIn API, TypeScript LinkedIn API, LangChain LinkedIn tool, OpenAI function calling LinkedIn, CRM LinkedIn enrichment, HubSpot LinkedIn integration.
 ---
 
 ## License
